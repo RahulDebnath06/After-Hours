@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>maaf kardo kuchupuchu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..400&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#0E0B21;
+    --night-2:#1B1338;
+    --lamp:#F2B25C;
+    --paper:#F6EDDD;
+    --paper-ink:#2C2242;
+    --paper-ink-soft:#5A4E70;
+    --moon:#EFE7F8;
+    --haze:#A79FC4;
+    --rose:#E0708F;
+    --rose-soft:#F09FB4;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+
+  body{
+    min-height:100svh;
+    background:
+      radial-gradient(110% 62% at 50% -8%, rgba(242,178,92,.20) 0%, rgba(224,112,143,.10) 40%, rgba(14,11,33,0) 70%),
+      linear-gradient(175deg, var(--night-2) 0%, var(--night) 62%);
+    background-attachment:fixed;
+    color:var(--moon);
+    font-family:"Newsreader", Georgia, "Times New Roman", serif;
+    font-optical-sizing:auto;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* ---------- drifting hearts in the background ---------- */
+  #sky{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+  #sky svg{position:absolute;bottom:-8vh;opacity:0;animation:drift linear infinite}
+  @keyframes drift{
+    0%{opacity:0;transform:translateY(0) translateX(0) scale(.7) rotate(0deg)}
+    10%{opacity:.42}
+    90%{opacity:.22}
+    100%{opacity:0;transform:translateY(-118svh) translateX(var(--sway,20px)) scale(1) rotate(var(--spin,20deg))}
+  }
+
+  .stage{position:relative;z-index:1;max-width:36rem;margin:0 auto;padding:clamp(40px,11vw,96px) clamp(18px,5vw,32px) clamp(60px,12vw,110px)}
+
+  .to{font-size:1rem;font-style:italic;color:var(--haze);margin:0 0 16px 3px;display:flex;align-items:center;gap:.45em}
+  .to svg{width:15px;height:15px;fill:var(--rose)}
+
+  /* ---------- the note ---------- */
+  .note{
+    position:relative;
+    background:linear-gradient(168deg,#FBF4E8 0%, var(--paper) 55%, #EFE3D0 100%);
+    color:var(--paper-ink);
+    border-radius:4px;
+    padding:clamp(40px,10vw,64px) clamp(24px,6vw,48px) clamp(32px,7vw,48px);
+    text-align:center;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.6) inset,
+      0 30px 70px -28px rgba(0,0,0,.78),
+      0 0 100px -34px rgba(224,112,143,.65);
+  }
+
+  .note h1{
+    font-size:clamp(2.1rem,9.2vw,3.5rem);
+    font-weight:400;
+    line-height:1.04;
+    letter-spacing:-.025em;
+    margin:0;
+  }
+
+  .note .line{
+    margin:1.5rem auto 0;
+    font-size:1.05rem;
+    line-height:1.7;
+    max-width:30ch;
+    color:var(--paper-ink-soft);
+  }
+
+  .hearts-row{display:flex;justify-content:center;gap:.55rem;margin:1.7rem 0 0}
+  .hearts-row svg{width:17px;height:17px;fill:var(--rose)}
+  .hearts-row svg:nth-child(2){width:23px;height:23px;fill:#D2405F;transform:translateY(-3px)}
+  .hearts-row svg:nth-child(4){opacity:.55}
+  .hearts-row svg:nth-child(5){opacity:.3}
+  .hearts-row svg:nth-child(1){opacity:.3}
+
+  .sign{margin:1.8rem 0 0;font-family:"Caveat","Segoe Script",cursive;font-size:1.9rem;line-height:1.2;display:flex;align-items:center;justify-content:center;gap:.35em}
+  .sign svg{width:19px;height:19px;fill:var(--rose)}
+  .sign small{display:block;font-family:"Newsreader",Georgia,serif;font-size:.8rem;font-style:italic;color:var(--paper-ink-soft)}
+
+  /* ---------- the question ---------- */
+  .ask{margin-top:clamp(38px,8vw,60px);text-align:center}
+  .ask h2{font-size:clamp(1.35rem,5vw,1.8rem);font-weight:400;letter-spacing:-.012em;margin:0 0 .45rem}
+  .ask .sub{margin:0;font-size:.95rem;font-style:italic;color:var(--haze)}
+
+  .arena{position:relative;margin-top:24px;height:280px;touch-action:none}
+
+  .btn{
+    position:absolute;top:0;left:0;
+    font-family:inherit;font-size:1.06rem;line-height:1;
+    padding:.85em 1.7em;border-radius:999px;border:1px solid transparent;
+    cursor:pointer;white-space:nowrap;transform-origin:center;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:focus-visible{outline:2px solid var(--lamp);outline-offset:3px}
+
+  #yes{
+    background:linear-gradient(180deg,#F5A0B8,var(--rose));
+    color:#fff;font-weight:600;
+    display:inline-flex;align-items:center;gap:.5em;
+    box-shadow:0 16px 38px -14px rgba(224,112,143,.95);
+    transition:transform .3s cubic-bezier(.2,.8,.3,1), box-shadow .3s ease;
+  }
+  #yes svg{width:16px;height:16px;fill:#fff}
+  #yes:active{filter:brightness(.96)}
+
+  #no{
+    background:transparent;color:var(--haze);
+    border-color:rgba(167,159,196,.45);
+    user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+    transition:left .24s cubic-bezier(.2,.9,.25,1), top .24s cubic-bezier(.2,.9,.25,1), transform .24s ease, opacity .3s ease;
+  }
+
+  /* ---------- accepted ---------- */
+  .accepted{display:none;text-align:center;margin-top:clamp(38px,8vw,60px)}
+  .accepted.on{display:block}
+  .accepted h2{font-size:clamp(1.7rem,6.4vw,2.4rem);font-weight:400;margin:0 0 .7rem;color:var(--rose-soft);letter-spacing:-.02em}
+  .accepted p{margin:0 auto;max-width:32ch;font-size:1.05rem;line-height:1.7}
+  .kisses{display:flex;justify-content:center;align-items:center;gap:.7rem;margin-top:1.6rem}
+  .kisses svg{width:26px;height:26px;fill:#D2405F}
+  .kisses svg:nth-child(1){width:20px;height:20px;opacity:.55;transform:rotate(-16deg)}
+  .kisses svg:nth-child(2){width:31px;height:31px;transform:rotate(6deg) translateY(-3px)}
+  .kisses svg:nth-child(3){fill:var(--rose);transform:rotate(-8deg) translateY(2px)}
+  .kisses svg:nth-child(4){width:18px;height:18px;opacity:.45;transform:rotate(14deg)}
+
+  #burst{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9}
+  #burst svg{position:absolute;bottom:-40px;opacity:0;animation:rise 3.4s ease-out forwards}
+  @keyframes rise{
+    0%{opacity:0;transform:translateY(0) scale(.5) rotate(0deg)}
+    12%{opacity:1}
+    100%{opacity:0;transform:translateY(-108svh) scale(1.1) rotate(var(--spin,18deg))}
+  }
+
+  @keyframes lampOn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .stage > *{animation:lampOn .95s cubic-bezier(.2,.8,.3,1) both}
+  .stage > *:nth-child(2){animation-delay:.12s}
+  .stage > *:nth-child(3){animation-delay:.34s}
+
+  @media (max-width:520px){
+    .arena{height:320px}
+    .btn{font-size:1rem;padding:.8em 1.5em}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .stage > *{animation:none}
+    #no,#yes{transition:none}
+    #sky svg{display:none}
+    #burst svg{animation-duration:.01ms}
+  }
+</style>
+</head>
+<body>
+
+<div id="sky" aria-hidden="true"></div>
+
+<main class="stage">
+
+  <!-- ===== EDIT: her name ===== -->
+  <p class="to">
+    <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.7-9.6-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.6 12c-2.1 4.3-9.6 9-9.6 9z"/></svg>
+    for yaya
+  </p>
+
+  <article class="note">
+    <!-- ===== EDIT: the message ===== -->
+    <h1>maaf kardo kuchupuchu</h1>
+
+    <p class="line">bas itna hi kehna tha. baaki sab galti meri thi.</p>
+
+    <div class="hearts-row" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.7-9.6-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.6 12c-2.1 4.3-9.6 9-9.6 9z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.7-9.6-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.6 12c-2.1 4.3-9.6 9-9.6 9z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.7-9.6-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.6 12c-2.1 4.3-9.6 9-9.6 9z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.7-9.6-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.6 12c-2.1 4.3-9.6 9-9.6 9z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.7-9.6-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.6 12c-2.1 4.3-9.6 9-9.6 9z"/></svg>
+    </div>
+
+    <p class="sign">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.7-9.6-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.6 12c-2.1 4.3-9.6 9-9.6 9z"/></svg>
+      <span><small>always yours,</small>gojo</span>
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.7-9.6-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.6 12c-2.1 4.3-9.6 9-9.6 9z"/></svg>
+    </p>
+  </article>
+
+  <section class="ask" id="ask">
+    <h2>maaf kiya?</h2>
+
+    <div class="arena" id="arena">
+      <button class="btn" id="yes" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.7-9.6-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.6 12c-2.1 4.3-9.6 9-9.6 9z"/></svg>
+        haan, maaf kiya
+      </button>
+      <button class="btn" id="no" type="button">nahi</button>
+    </div>
+  </section>
+
+  <section class="accepted" id="accepted" aria-live="polite">
+    <h2>thank you</h2>
+    <p>i love you so much. i know you don't, but i do.</p>
+    <div class="kisses" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 9.8C13.4 7 16.8 6.2 18.9 7.9 20.4 9.1 20.2 10.9 19.2 12L4.8 12C3.8 10.9 3.6 9.1 5.1 7.9 7.2 6.2 10.6 7 12 9.8Z"/><path d="M4.8 12.4C5.9 16.9 8.8 19.4 12 19.4 15.2 19.4 18.1 16.9 19.2 12.4Z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 9.8C13.4 7 16.8 6.2 18.9 7.9 20.4 9.1 20.2 10.9 19.2 12L4.8 12C3.8 10.9 3.6 9.1 5.1 7.9 7.2 6.2 10.6 7 12 9.8Z"/><path d="M4.8 12.4C5.9 16.9 8.8 19.4 12 19.4 15.2 19.4 18.1 16.9 19.2 12.4Z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 9.8C13.4 7 16.8 6.2 18.9 7.9 20.4 9.1 20.2 10.9 19.2 12L4.8 12C3.8 10.9 3.6 9.1 5.1 7.9 7.2 6.2 10.6 7 12 9.8Z"/><path d="M4.8 12.4C5.9 16.9 8.8 19.4 12 19.4 15.2 19.4 18.1 16.9 19.2 12.4Z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 9.8C13.4 7 16.8 6.2 18.9 7.9 20.4 9.1 20.2 10.9 19.2 12L4.8 12C3.8 10.9 3.6 9.1 5.1 7.9 7.2 6.2 10.6 7 12 9.8Z"/><path d="M4.8 12.4C5.9 16.9 8.8 19.4 12 19.4 15.2 19.4 18.1 16.9 19.2 12.4Z"/></svg>
+    </div>
+  </section>
+
+</main>
+
+<div id="burst" aria-hidden="true"></div>
+
+<script>
+(function () {
+  var HEART = 'M12 21s-7.5-4.7-9.6-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.6 12c-2.1 4.3-9.6 9-9.6 9z';
+  var NS = 'http://www.w3.org/2000/svg';
+
+  var arena = document.getElementById('arena');
+  var no    = document.getElementById('no');
+  var yes   = document.getElementById('yes');
+  var ask   = document.getElementById('ask');
+  var ok    = document.getElementById('accepted');
+  var burst = document.getElementById('burst');
+  var sky   = document.getElementById('sky');
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var tries = 0, lastMove = 0, done = false;
+  var px = null, py = null, pending = false;
+
+  var TAUNTS = ['nahi','nahi?','sach me?','soch lo','pakka?','please?','ye wala nahi',
+                'doosra dabao','ye toota hua hai','abhi bhi nahi?','haar maano',
+                'main pura din bhaag sakta hoon','kuchupuchu pleaseee'];
+
+  var LIP_TOP = 'M12 9.8C13.4 7 16.8 6.2 18.9 7.9 20.4 9.1 20.2 10.9 19.2 12L4.8 12C3.8 10.9 3.6 9.1 5.1 7.9 7.2 6.2 10.6 7 12 9.8Z';
+  var LIP_BOT = 'M4.8 12.4C5.9 16.9 8.8 19.4 12 19.4 15.2 19.4 18.1 16.9 19.2 12.4Z';
+
+  function svgOf(paths, fill){
+    var s = document.createElementNS(NS,'svg');
+    s.setAttribute('viewBox','0 0 24 24');
+    paths.forEach(function(d){
+      var p = document.createElementNS(NS,'path');
+      p.setAttribute('d', d);
+      p.setAttribute('fill', fill);
+      s.appendChild(p);
+    });
+    return s;
+  }
+
+  function heart(fill){ return svgOf([HEART], fill); }
+  function kiss(fill){ return svgOf([LIP_TOP, LIP_BOT], fill); }
+
+  /* ---------- background hearts ---------- */
+  if (!reduce) {
+    for (var i = 0; i < 14; i++) {
+      var h = (i % 4 === 3) ? kiss('#D2405F') : heart(i % 3 === 0 ? '#F2B25C' : '#E0708F');
+      var size = 10 + Math.random() * 20;
+      h.style.width = h.style.height = size + 'px';
+      h.style.left = (Math.random() * 96) + 'vw';
+      h.style.animationDuration = (16 + Math.random() * 16) + 's';
+      h.style.animationDelay = (-Math.random() * 28) + 's';
+      h.style.setProperty('--sway', (Math.random() * 90 - 45) + 'px');
+      h.style.setProperty('--spin', (Math.random() * 70 - 35) + 'deg');
+      sky.appendChild(h);
+    }
+  }
+
+  /* ---------- geometry ---------- */
+  function R(el){ return el.getBoundingClientRect(); }
+
+  function bounds(){
+    var a = R(arena), n = R(no);
+    return { a:a, w:a.width, h:a.height, nw:n.width, nh:n.height,
+             maxX: Math.max(0, a.width - n.width),
+             maxY: Math.max(0, a.height - n.height) };
+  }
+
+  function yesBox(){
+    var a = R(arena), y = R(yes);
+    return { x:y.left-a.left, y:y.top-a.top, w:y.width, h:y.height };
+  }
+
+  function hits(x,y,w,h,b,pad){
+    return !(x+w+pad < b.x || x > b.x+b.w+pad || y+h+pad < b.y || y > b.y+b.h+pad);
+  }
+
+  function put(x,y,b){
+    no.style.left = Math.max(0, Math.min(b.maxX, x)) + 'px';
+    no.style.top  = Math.max(0, Math.min(b.maxY, y)) + 'px';
+  }
+
+  function layout(){
+    var a = R(arena), y = R(yes);
+    yes.style.left = Math.max(0,(a.width - y.width)/2) + 'px';
+    yes.style.top  = Math.max(0,(a.height - y.height)/2 - a.height*0.18) + 'px';
+    var b = bounds(), box = yesBox();
+    put((a.width - b.nw)/2, box.y + box.h + 38, b);
+  }
+
+  /* ---------- the dodge ---------- */
+  function dodge(cx, cy){
+    if (done) return;
+    var t = Date.now();
+    if (t - lastMove < 60) return;
+    lastMove = t;
+
+    var b = bounds(), box = yesBox(), cur = R(no);
+    var fx = (typeof cx === 'number') ? cx - b.a.left : (cur.left - b.a.left + b.nw/2);
+    var fy = (typeof cy === 'number') ? cy - b.a.top  : (cur.top  - b.a.top  + b.nh/2);
+    var ox = cur.left - b.a.left, oy = cur.top - b.a.top;
+
+    var safeMin = Math.min(b.w, 340) * 0.45;
+    var best = null, bestScore = -Infinity, far = null, farScore = -Infinity;
+
+    for (var i = 0; i < 60; i++) {
+      var x = Math.random() * b.maxX;
+      var y = Math.random() * b.maxY;
+      var mx = x + b.nw/2, my = y + b.nh/2;
+      var dPointer = Math.hypot(mx - fx, my - fy);
+      var dTravel  = Math.hypot(x - ox, y - oy);
+
+      if (dPointer > farScore) { farScore = dPointer; far = [x,y]; }
+      if (hits(x,y,b.nw,b.nh,box,20)) continue;
+      if (dPointer < safeMin) continue;
+      if (dTravel < 50) continue;
+
+      var score = dPointer + dTravel * 0.35;
+      if (score > bestScore) { bestScore = score; best = [x,y]; }
+    }
+
+    put.apply(null, (best || far || [0,0]).concat([b]));
+
+    tries++;
+    no.textContent = TAUNTS[Math.min(tries, TAUNTS.length - 1)];
+    no.style.transform = 'scale(' + (1 - Math.min(tries,7)*0.045).toFixed(3) + ') rotate(' + (Math.random()*18-9).toFixed(1) + 'deg)';
+    no.style.opacity = Math.max(0.45, 1 - tries*0.04).toFixed(2);
+    yes.style.transform = 'scale(' + (1 + Math.min(tries,9)*0.05).toFixed(3) + ')';
+  }
+
+  /* ---------- every possible way to touch it, blocked ---------- */
+  function kill(e){
+    if (done) return;
+    var t = e.target;
+    if (t !== no && !(t.nodeType === 1 && no.contains(t))) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    var x = e.clientX, y = e.clientY;
+    if (x === undefined && e.touches && e.touches[0]) { x = e.touches[0].clientX; y = e.touches[0].clientY; }
+    dodge(x, y);
+  }
+
+  ['pointerdown','mousedown','touchstart','click','dblclick','contextmenu','pointerup','mouseup','touchend']
+    .forEach(function(type){ window.addEventListener(type, kill, {capture:true, passive:false}); });
+
+  no.addEventListener('focus', function(){ dodge(); });
+  no.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); dodge(); }
+  });
+  no.addEventListener('dragstart', function(e){ e.preventDefault(); });
+
+  /* ---------- proximity flee, checked every frame ---------- */
+  window.addEventListener('pointermove', function(e){
+    px = e.clientX; py = e.clientY;
+    if (!pending) { pending = true; requestAnimationFrame(check); }
+  }, {passive:true});
+
+  function check(){
+    pending = false;
+    if (done || px === null) return;
+    var n = R(no);
+    var cx = n.left + n.width/2, cy = n.top + n.height/2;
+    var reach = Math.max(88, n.width * 0.95);
+    if (Math.hypot(px - cx, py - cy) < reach) dodge(px, py);
+  }
+
+  /* ---------- yes ---------- */
+  yes.addEventListener('click', function(){
+    if (done) return;
+    done = true;
+    ask.style.display = 'none';
+    ok.classList.add('on');
+    bloom();
+    ok.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'center'});
+  });
+
+  function bloom(){
+    var n = reduce ? 5 : 26;
+    for (var i = 0; i < n; i++) {
+      (function(i){
+        setTimeout(function(){
+          var s = (i % 3 === 2)
+            ? kiss(i % 2 ? '#D2405F' : '#E0708F')
+            : heart(i % 4 === 0 ? '#F2B25C' : '#E0708F');
+          var size = 16 + Math.random()*26;
+          s.style.width = s.style.height = size + 'px';
+          s.style.left = (Math.random()*92 + 4) + 'vw';
+          s.style.setProperty('--spin', (Math.random()*70-35) + 'deg');
+          s.style.animationDuration = (2.6 + Math.random()*1.8) + 's';
+          burst.appendChild(s);
+          setTimeout(function(){ s.remove(); }, 5400);
+        }, i * 90);
+      })(i);
+    }
+  }
+
+  /* ---------- stay inside the box, always ---------- */
+  function reflow(){
+    if (tries === 0) { layout(); return; }
+    var b = bounds(), a = b.a, cur = R(no);
+    put(cur.left - a.left, cur.top - a.top, b);
+  }
+
+  window.addEventListener('resize', reflow);
+  window.addEventListener('scroll', function(){ if (!pending) { pending = true; requestAnimationFrame(check); } }, {passive:true});
+  window.addEventListener('orientationchange', function(){ setTimeout(reflow, 250); });
+  if (window.ResizeObserver) { new ResizeObserver(reflow).observe(arena); }
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(layout); }
+  window.addEventListener('load', layout);
+  layout();
+})();
+</script>
+</body>
+</html>
